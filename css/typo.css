@@ -77,7 +77,7 @@ body {
 
 .wrapper-3d {
     position: relative;
-    perspective: 250px;
+    /* perspective: 250px; */
     transform-style: preserve-3d;
 }
 
@@ -97,7 +97,7 @@ body {
     /* background: #dadada; */
     position: absolute;
     transform-origin: top center;
-    transform: translateZ(0px) translate3d(0, 80vh, 0) rotateX(120deg) scale3d(1, 1.002004008016032, 1);
+    transform: translate3d(0, 80vh, 0) perspective(1000px) rotateX(60deg);
     right: 0;
     left: 0;
     top: 0;
@@ -113,10 +113,9 @@ body {
 }
 
 .fold-before {
-    /* background: #dadada; */
     position: absolute;
     transform-origin: bottom center;
-    transform: translateZ(0px) translate3d(0, -80vh, 0) rotateX(-120deg) scale3d(1, 1.002004008016032, 1);
+    transform: translate3d(0, -80vh, 0) perspective(1000px) rotateX(-60deg);
     left: 0;
     right: 0;
     top: 0;
@@ -154,4 +153,102 @@ body {
     right: 10px;
     cursor: pointer;
     z-index: 100;
+}
+
+
+
+
+/* Ambient Occlusion */
+
+.fold-scroller {
+    transform-style: preserve-3d;
+    --ambient-color: hsla(0, 0%, 0%, 0.2);
+/*     --ambient-color: hsla(340, 100%, 54%, 0.2); */
+    --ambient-radius: 50px;
+    --ambient-sharpness: 90%;
+}
+
+.fold-before .fold-scroller::after,
+.fold-center .fold-scroller::after,
+.fold-center .fold-scroller::before,
+.fold-after .fold-scroller::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    content: '';
+    height: var(--ambient-radius);
+}
+
+.fold-before .fold-scroller::after {
+    bottom: 100%;
+}
+
+.fold-after .fold-scroller::before {
+    top: 100%;
+}
+
+.fold-center .fold-scroller::before {
+    top: -1px;
+}
+
+.fold-center .fold-scroller::after {
+    bottom: -1px;
+}
+
+.fold-before .fold-scroller::after,
+.fold-center .fold-scroller::after {
+    transform: translateZ(1px);
+}
+
+.fold-after .fold-scroller::before,
+.fold-center .fold-scroller::before {
+    transform: translateZ(1px) scaleY(-1);
+}
+
+.fold-before .fold-scroller::after,
+.fold-center .fold-scroller::after,
+.fold-after .fold-scroller::before,
+.fold-center .fold-scroller::before {
+    background: linear-gradient(
+        transparent,
+        calc(50% + var(--ambient-sharpness)/2),
+        var(--ambient-color)
+    );
+}
+
+
+
+
+/* Fog */
+
+.fold-scroller {
+    transform-style: preserve-3d;
+    --fog-color: black;
+/*     --fog-color: hsla(340, 100%, 54%, 0.3); */
+    --fog-sharpness: 70%;
+    --fog-position: -60%;
+}
+
+.fold-before .fold-scroller::before,
+.fold-after .fold-scroller::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    content: '';
+    height: 170px;
+    background-image: linear-gradient(
+        var(--fog-color) calc(10% + var(--fog-position)),
+        calc(50% + var(--fog-sharpness)/2 + var(--fog-position)),
+        transparent calc(100% + var(--fog-position))
+    );
+}
+
+.fold-before .fold-scroller::before {
+    bottom: 100%;
+    transform: translateZ(2px);
+}
+
+.fold-after .fold-scroller::after {
+    top: 100%;
+    transform: translateZ(2px) scaleY(-1);
 }

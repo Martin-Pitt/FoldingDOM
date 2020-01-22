@@ -39,7 +39,6 @@ body {
 
 .wrapper-3d {
 	position: relative;
-	perspective: 250px;
 	transform-style: preserve-3d;
 }
 
@@ -60,7 +59,7 @@ body {
 	/* background: #dadada; */
 	position: absolute;
 	transform-origin: top center;
-	transform: translateZ(0px) translate3d(0, 80vh, 0) rotateX(120deg) scale3d(1, 1.002004008016032, 1);
+	transform: translate3d(0, 80vh, 0) perspective(1000px) rotateX(60deg);
 	right: 0;
 	left: 0;
 	top: 0;
@@ -80,7 +79,7 @@ body {
 	/* background: #dadada; */
 	position: absolute;
 	transform-origin: bottom center;
-	transform: translateZ(0px) translate3d(0, -80vh, 0) rotateX(-120deg) scale3d(1, 1.002004008016032, 1);
+	transform: translate3d(0, -80vh, 0) perspective(1000px) rotateX(-60deg);
 	left: 0;
 	right: 0;
 	top: 0;
@@ -118,4 +117,41 @@ body {
 	right: 10px;
 	cursor: pointer;
 	z-index: 100;
+}
+
+
+
+
+
+/* Fog */
+
+.fold-scroller {
+    transform-style: preserve-3d;
+    --fog-color: var(--color-bg);
+    --fog-sharpness: 70%;
+    --fog-position: -20%;
+}
+
+.fold-before .fold-scroller::before,
+.fold-after .fold-scroller::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    content: '';
+    height: 170px;
+    background-image: linear-gradient(
+        var(--fog-color) calc(10% + var(--fog-position)),
+        calc(50% + var(--fog-sharpness)/2 + var(--fog-position)),
+        transparent calc(100% + var(--fog-position))
+    );
+}
+
+.fold-before .fold-scroller::before {
+    bottom: 100%;
+    transform: translateZ(2px);
+}
+
+.fold-after .fold-scroller::after {
+    top: 100%;
+    transform: translateZ(2px) scaleY(-1);
 }
