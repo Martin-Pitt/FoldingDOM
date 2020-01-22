@@ -19,7 +19,6 @@
 
   let state = {
     scroll: 0,
-    targetScroll: 0,
     progress: 0,
     targetProgress: 0,
     disposed: false
@@ -139,11 +138,9 @@
       window.innerHeight +
       "px";
 
-    state.targetScroll = -(
+    state.scroll = -(
       document.documentElement.scrollTop || document.body.scrollTop
     );
-
-    state.scroll += lerp(state.scroll, state.targetScroll, 0.1, 0.0001);
 
     let progress = state.scroll;
     foldedDomCenter.updateStyles(progress + baseContent.offsetTop);

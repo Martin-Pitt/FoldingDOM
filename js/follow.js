@@ -10,7 +10,6 @@
 
   let state = {
     disposed: false,
-    targetScroll: 0,
     scroll: 0,
     mouse: {
       x: 0,
@@ -239,11 +238,9 @@
     state.follower.x += state.followerVelocity.x;
     state.follower.y += state.followerVelocity.y;
 
-    state.targetScroll = -(
+    state.scroll = -(
       document.documentElement.scrollTop || document.body.scrollTop
     );
-
-    state.scroll += lerp(state.scroll, state.targetScroll, 0.1, 0.0001);
 
     insideFold.updateScrollStyles(state.scroll);
     insideFold.updateFoldTransforms();

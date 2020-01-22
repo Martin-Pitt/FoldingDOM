@@ -7,7 +7,6 @@
 
   let state = {
     disposed: false,
-    targetScroll: 0,
     scroll: 0
   };
 
@@ -81,11 +80,10 @@
     // state.targetScroll = -(
     //   document.documentElement.scrollLeft || document.body.scrollLeft
     // );
-    state.targetScroll = Math.max(
-      Math.min(0, state.targetScroll),
+    state.scroll = Math.max(
+      Math.min(0, state.scroll),
       -insideFold.scrollers[0].children[0].clientWidth + mainFold.clientWidth
     );
-    state.scroll += lerp(state.scroll, state.targetScroll, 0.1, 0.0001);
 
     insideFold.updateStyles(state.scroll);
 
@@ -128,7 +126,7 @@
 
   window.addEventListener("mousemove", ev => {
     if (lastClientX && isDown) {
-      state.targetScroll += ev.clientX - lastClientX;
+      state.scroll += ev.clientX - lastClientX;
     }
     lastClientX = ev.clientX;
   });
@@ -136,14 +134,14 @@
   window.addEventListener("touchmove", ev => {
     let touch = ev.touches[0];
     if (lastClientX && isDown) {
-      state.targetScroll += ev.clientX - lastClientX;
+      state.scroll += ev.clientX - lastClientX;
     }
     lastClientX = ev.clientX;
   });
 
   window.addEventListener("wheel", ev => {
     // Fixefox delta is like 1px and chrome 100
-    state.targetScroll += -Math.sign(ev.deltaY) * 30;
+    state.scroll += -Math.sign(ev.deltaY) * 30;
   });
   
   /***********************************/

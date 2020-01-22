@@ -13,7 +13,6 @@
 
   let state = {
     disposed: false,
-    targetScroll: 0,
     scroll: 0
   };
 
@@ -89,10 +88,9 @@
       window.innerHeight +
       "px";
 
-    state.targetScroll = -(
+    state.scroll = -(
       document.documentElement.scrollTop || document.body.scrollTop
     );
-    state.scroll += lerp(state.scroll, state.targetScroll, 0.1, 0.0001);
 
     insideFold.updateStyles(state.scroll);
     // setScrollStyles(state.currentY);
